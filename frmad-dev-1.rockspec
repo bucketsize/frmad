@@ -29,16 +29,17 @@ build = {
 		  ["frmad.pulseaudio"] = "src/fragments/pulseaudio.lua",
 		  ["frmad.weather"] = "src/fragments/weather.lua",
 
-          ["frmad.clogger"] = "src/writers/clogger.lua",
-          ["frmad.mcache"] = "src/writers/mcache.lua",
-          ["frmad.mlogger"] = "src/writers/mlogger.lua",
+      ["frmad.clogger"] = "src/writers/clogger.lua",
+      ["frmad.mcache"] = "src/writers/mcache.lua",
+      ["frmad.mlogger"] = "src/writers/mlogger.lua",
 
-          ["frmad.cachec"] = "src/lib/cachec.lua",
+      ["frmad.cachec"] = "src/lib/cachec.lua",
 		},
 		bin = {
-		    ["frmad.cached"] = "src/cached.lua",
+		  ["frmad.cached"] = "src/cached.lua",
 			["frmad.daemon"] = "src/daemon.lua",
-			["frmad.i3bar_out"] = "src/i3bar_out.lua"
+			["frmad.i3bar_out"] = "src/i3bar_out.lua",
+			["frmad.lemonbar_out"] = "src/lemonbar_out.lua"
 
 		}
 	}
