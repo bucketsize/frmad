@@ -8,7 +8,7 @@ local cachec = require("frmad.cachec")
 
 local Sym ={
 	cpu = "",
-	gpu = "gpu",
+	gpu = "g",
 	mem = "",
 	eth = "",
 	wifi = "",
@@ -38,9 +38,11 @@ function co_out()
 		local audio = util:if_else(otab['vol'] == nil or otab['vol'] < 1
 			, {icon = Sym["snd_mute"], val = ""}
 			, {icon = Sym["snd"], val = mtab["vol"]})
-		print(string.format("%%{l} %s %s %s %%{c} %s %s %%{r} %s %s | %s %s | %s %s | %s %s "
+		print(string.format("%%{l} %s %s %s %%{c} %s %s %%{r} %s %s | %s %s | %s %s | %s %s | %s %s | %s %s "
 				, mtab['weather_temperature'], mtab['weather_humidity'], mtab['weather_summary']
 				, Sym['clock'], os.date("%a %b %d, %Y | %H:%M")
+				, Sym['cpu'], mtab['cpu']
+				, Sym['mem'], mtab['mem']
 				, Sym['temperature'], mtab['cpu_temp']
 				, Sym['eth'], util:if_else(mtab['net_gateway']=="?", Sym['disabled'], "")
 				, audio.icon, audio.val
