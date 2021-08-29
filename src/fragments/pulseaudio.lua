@@ -28,7 +28,7 @@ function co_vol_usage()
 		local v, s = vol_usage()
 		MTAB['vol'] = v
 		MTAB['vol_level'] = v*0.05
-		MTAB['snd_live'] = s
+		MTAB['snd_live'] = tostring(s)
 		coroutine.yield()
 	end
 end
