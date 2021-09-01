@@ -13,13 +13,13 @@ local Sym ={
 	eth = "Eth",
 	wifi = "Wlan",
 	disc = "Df",
-	clock = "Tz",
+	clock = "T",
 	battery = "Bat ",
 	AC = "Pow ",
 	snd = "Snd",
 	snd_mute = "Snd",
 	disabled = "X",
-	temperature = "T ",
+	temperature = "Th ",
 	-- cpu = "",
 	-- gpu = "g",
 	-- mem = "",
@@ -53,7 +53,7 @@ function co_out()
 			, {icon = Sym["snd"], val = mtab["vol"]})
 		print(string.format("%%{l} %s %s %s %%{c} %s %s %%{r} %s%s  %s%s  %s%s  %s%s  %s%s  %s%s "
 				, mtab['weather_temperature'], mtab['weather_humidity'], mtab['weather_summary']
-				, Sym['clock'], os.date("%a %b %d, %Y | %H:%M")
+				, Sym['clock'], os.date("%a %b %d, %Y | %H:%M:%S")
 				, Sym['cpu']  , mtab['cpu']
 				, Sym['mem']  , mtab['mem']
 				, Sym['temperature'], mtab['cpu_temp']
