@@ -34,13 +34,13 @@ build = {
       ["frmad.mlogger"] = "src/writers/mlogger.lua",
 
       ["frmad.cachec"] = "src/lib/cachec.lua",
+      ["frmad.sym"] = "src/lib/sym.lua",
 		},
 		bin = {
 		  ["frmad.cached"] = "src/cached.lua",
 			["frmad.daemon"] = "src/daemon.lua",
 			["frmad.i3bar_out"] = "src/i3bar_out.lua",
 			["frmad.lemonbar_out"] = "src/lemonbar_out.lua"
-
 		}
 	}
 }
