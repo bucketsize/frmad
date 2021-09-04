@@ -1,11 +1,16 @@
-require "luarocks.loader"
+#!/usr/bin/env lua
 
-local client = require("frmad.cachec")
+package.path = os.getenv("HOME") .. '/?.lua;'
+    .. package.path
+
+-- require "luarocks.loader"
+
+local client = require("frmad.lib.cachec")
 local util = require("minilib.util")
 
 function test_fragments()
    for k,v in ipairs({"amdgpu","battery","cpu","cpu_freq","cpu_temp","disk","mem","net","process","pulseaudio", "weather"}) do
-	  local f = require("frmad." .. v)
+	  local f = require("frmad.fragments." .. v)
       local r = f.fn()
       if type(r) == "table" then
           print(v..":")

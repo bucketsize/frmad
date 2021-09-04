@@ -1,6 +1,6 @@
 require "luarocks.loader"
 
-local alert = require('frmad.alerts')
+local alert = require('frmad.config.alerts')
 
 function cpu_usage()
 	local handle = io.open("/proc/stat", "r")

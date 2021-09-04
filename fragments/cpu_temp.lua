@@ -1,7 +1,7 @@
 require "luarocks.loader"
 
 local Util = require('minilib.util')
-local alert = require('frmad.alerts')
+local alert = require('frmad.config.alerts')
 
 local hwmons={}
 

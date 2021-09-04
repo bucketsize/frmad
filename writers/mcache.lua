@@ -1,7 +1,7 @@
 require "luarocks.loader"
 
-local Fmt = require('frmad.formats')
-local cachec = require("frmad.cachec")
+local Fmt = require('frmad.config.formats')
+local cachec = require("frmad.lib.cachec")
 
 function mcache()
     while true do

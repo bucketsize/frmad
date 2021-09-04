@@ -1,6 +1,6 @@
 require "luarocks.loader"
 
-local alert = require('frmad.alerts')
+local alert = require('frmad.config.alerts')
 local Proc = require('minilib.process')
 local Shell = require('minilib.shell')
 

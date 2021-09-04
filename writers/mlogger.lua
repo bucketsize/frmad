@@ -1,6 +1,6 @@
 require "luarocks.loader"
 
-local Fmt = require('frmad.formats')
+local Fmt = require('frmad.config.formats')
 
 -- Log to '/var/tmp/sys_mon.out' --
 function logger()

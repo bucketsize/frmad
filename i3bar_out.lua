@@ -3,8 +3,8 @@ require "luarocks.loader"
 
 local socket = require("socket")
 local util = require("minilib.util")
-local formats = require("frmad.formats")
-local cachec = require("frmad.cachec")
+local formats = require("frmad.config.formats")
+local cachec = require("frmad.lib.cachec")
 
 local Sym ={
 	cpu = "",

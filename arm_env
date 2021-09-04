@@ -1,0 +1,2 @@
+export CRYPTO_LIBDIR=/usr/lib/arm-linux-gnueabihf
+export OPENSSL_LIBDIR=/usr/lib/arm-linux-gnueabihf

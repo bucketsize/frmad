@@ -1,0 +1,3 @@
+eval $(luarocks path)
+
+export LUA_PATH="$HOME/?.lua;$LUA_PATH"
