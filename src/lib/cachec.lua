@@ -8,6 +8,8 @@ function Client.configure(self, client)
    self.client = client
 end
 function Client.put(self, k, v, type)
+    if not k then k = "__unknown" end    
+    if not v then v = "__unk_"..k end    
    local s, status, partial = self.client:send("put", string.format("%s|%s::%s\n", k, tostring(v), type))
    return s, status
 end

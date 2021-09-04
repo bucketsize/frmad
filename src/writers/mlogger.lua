@@ -4,20 +4,22 @@ local Fmt = require('frmad.formats')
 
 -- Log to '/var/tmp/sys_mon.out' --
 function logger()
-	while true do
-		local hout = io.open("/tmp/sys_mon.out", "w")
-		local hlog = io.open("/var/tmp/sys_mon.log", "a")
-		for i,k in Fmt:ipairs() do
-			local fmt = Fmt[k]
-			local v = MTAB[k]
-			--print("-> ", k, v, type(v))
-			hout:write(k,': ',string.format(fmt, v), "\n")
-			hlog:write(string.format(fmt, v), ",")
-		end
-		hout:close()
-		hlog:write('\n')
-		hlog:close()
-		coroutine.yield()
-	end
+    while true do
+        local hout = io.open("/tmp/sys_mon.out", "w")
+        for k, v in pairs(MTAB) do
+            local f = Fmt[k]
+            if not f then
+                k = k:match("[%w_]+:([%w_]+)")
+                f = Fmt[k]
+            end
+            --print("-> ", k, v, type(v))
+            if not k then k = "__unknown" end    
+            if not v then v = "__unv_"..k end    
+            if not f then f = "__unf_"..k end    
+            hout:write(k,': ',string.format(f, v), "\n")
+        end
+        hout:close()
+        coroutine.yield()
+    end
 end
 return {co=logger, ri=2}

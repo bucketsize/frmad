@@ -6,7 +6,13 @@ local util = require("minilib.util")
 function test_fragments()
    for k,v in ipairs({"amdgpu","battery","cpu","cpu_freq","cpu_temp","disk","mem","net","process","pulseaudio", "weather"}) do
 	  local f = require("frmad." .. v)
-	  print(v .. ": ", f.fn())
+      local r = f.fn()
+      if type(r) == "table" then
+          print(v..":")
+          util:printOTable(r)
+      else
+          print(v .. ": ", r)
+      end
    end
 end
 
@@ -55,6 +61,6 @@ end
 
 
 test_fragments()
-test_cachec_perf()
-test_cachec()
-test_cachec_co()
+-- test_cachec_perf()
+-- test_cachec()
+-- test_cachec_co()

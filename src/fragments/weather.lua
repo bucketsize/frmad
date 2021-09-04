@@ -5,6 +5,9 @@ local http_request = require("http.request")
 
 local OpenWeatherApi="http://api.openweathermap.org/data/2.5/weather?q=bengaluru&appid=%s"
 local OpenWeatherApiKey=os.getenv("openweathermap_apikey")
+if not OpenWeatherApiKey then
+    OpenWeatherApiKey = "__UNKNOWN__"
+end
 
 function weather()
 	local headers, stream = assert(http_request
