@@ -5,6 +5,7 @@ local socket = require("socket")
 local util = require("minilib.util")
 local formats = require("frmad.config.formats")
 local cachec = require("frmad.lib.cachec")
+local sym = require("frmad.lib.sym").ascii
 
 function status_line()
     local otab = cachec:getAll()
@@ -17,22 +18,23 @@ function status_line()
         end
     end
     local power = util:if_else(mtab['battery_status'] == "AC"
-    , {icon = ">P~", val = "AC"}
-    , {icon = ">B~", val = mtab["battery"]})
+    , {sym = sym["AC"], val = ""}
+    , {sym = sym["battery"], val = mtab["battery"]})
     local audio = util:if_else(otab['vol'] == nil or otab['vol'] < 1
-    , {icon = ">Vx", val = ""}
-    , {icon = ">Vo", val = mtab["vol"]})
-    return string.format("%%{l} %s %s %s %%{c} >T %s %%{r} >C%s (%s) >M%s >T%s >N%s %s%s %s%s \n"
-    , mtab['weather_temperature'], mtab['weather_humidity']
-    , mtab['weather_summary']
-    , os.date("%a %b %d, %Y | %H:%M:%S")
-    , mtab['cpu']
-    , mtab['cpu_mfreq']
-    , mtab['mem']
-    , mtab['cpu_temp']
-    , util:if_else(mtab['net_gateway']=="?", "-/-", ".:|")
-    , audio.icon, audio.val
-    , power.icon, power.val)
+    , {sym = sym["snd_mute"], val = ""}
+    , {sym = sym["snd"], val = mtab["vol"]})
+    local net = util:if_else(mtab['net_gateway']=="?"
+    , {sym = sym["net_disabled"], val = ""}
+    , {sym = sym["net"], val = ""}) 
+    return string.format("%%{l} %s %s %s %%{c} %s%s %%{r}%s%s (%s) %s%s %s%s %s%s %s%s %s%s \n"
+    , mtab['weather_summary'], mtab['weather_temperature'], mtab['weather_humidity']
+    , sym["clock"], os.date("%a | %b %d, %Y | %H:%M:%S")
+    , sym["cpu"], mtab['cpu'], mtab['cpu_mfreq']
+    , sym["mem"], mtab['mem']
+    , sym["temperature"], mtab['cpu_temp']
+    , net.sym, net.val 
+    , audio.sym, audio.val
+    , power.sym, power.val)
 end
 
 while true do
