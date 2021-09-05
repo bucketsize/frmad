@@ -47,4 +47,17 @@ Fmt['weather_temperature']="%.1f"
 Fmt['weather_humidity']="%.1f"
 Fmt['weather_summary']="%s"
 
+function Fmt:formatvalue(Fmt, k, v)
+    local f = Fmt[k]
+    if not f then
+        local fk = k:match("[%w_]+:([%w_]+)")
+        f = Fmt[fk]
+    end
+    --print("-> ", k, v, type(v))
+    if not k then k = "__unknown" end    
+    if not v then v = "__unv_"..k end    
+    if not f then f = "__unf_"..k end    
+    return string.format(f, v)
+end
+
 return Fmt

@@ -8,30 +8,6 @@ package.path = os.getenv("HOME") .. '/?.lua;'
 local client = require("frmad.lib.cachec")
 local util = require("minilib.util")
 
-function test_fragments()
-   for k,v in ipairs({"amdgpu","battery","cpu","cpu_freq","cpu_temp","disk","mem","net","process","pulseaudio", "weather"}) do
-	  local f = require("frmad.fragments." .. v)
-      local r = f.fn()
-      if type(r) == "table" then
-          print(v..":")
-          util:printOTable(r)
-      else
-          print(v .. ": ", r)
-      end
-   end
-end
-
-function test_cachec_perf()
-   print(os.date())
-   for i=1,10000,1 do
-	  local k, v = 'keyN:N'..tostring(i), "hello !wow." .. tostring(i)
-	  client:put(k, v, "string")
-	  local r = client:get(k)
-	  assert(r == v, "value missmatch " ..v)
-   end
-   print(os.date())
-end
-
 function test_cachec()
    for i=1,5,1 do
 	  local k, v = 'key:1'..tostring(i), i
@@ -47,6 +23,18 @@ function test_cachec()
    end
    local all = client:getAll()
 end
+
+function test_cachec_perf()
+   print(os.date())
+   for i=1,10000,1 do
+	  local k, v = 'keyN:N'..tostring(i), "hello !wow." .. tostring(i)
+	  client:put(k, v, "string")
+	  local r = client:get(k)
+	  assert(r == v, "value missmatch " ..v)
+   end
+   print(os.date())
+end
+
 function test_cachec_co()
    function cachec_co()
 	  for i = 1,10000,1 do
@@ -65,7 +53,6 @@ function test_cachec_co()
 end
 
 
-test_fragments()
+test_cachec()
 -- test_cachec_perf()
--- test_cachec()
 -- test_cachec_co()

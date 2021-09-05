@@ -27,7 +27,7 @@ function co_cpu_freq()
          sfreq = sfreq + v
          s = i
       end
-      MTAB["m:cpu_mfreq"] = sfreq/s
+      MTAB["m:cpu_freq"] = sfreq/s
       coroutine.yield()
    end
 end
