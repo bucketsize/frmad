@@ -21,13 +21,15 @@ function co_gpu_usage_amdgpu()
 	while true do
 		local vram,vram_used,tgpu,gmf,gsf=gpu_usage_amdgpu()
 		-- print('->', vram,vram_used,tgpu,gmf,gsf)
-		MTAB['gpu_mem'] = vram / 1000000
-		MTAB['gpu_mem_used'] = vram_used / 1000000
-		MTAB['gpu_mem_used_pc'] = vram_used * 100 / vram
-		MTAB['gpu_temp'] = tgpu
-		MTAB['gpu_temp'] = tgpu
-		MTAB['gpu_mclk'] = gmf
-		MTAB['gpu_sclk'] = gsf
+        if vram then
+            MTAB['gpu_mem'] = vram / 1000000
+            MTAB['gpu_mem_used'] = vram_used / 1000000
+            MTAB['gpu_mem_used_pc'] = vram_used * 100 / vram
+            MTAB['gpu_temp'] = tgpu
+            MTAB['gpu_temp'] = tgpu
+            MTAB['gpu_mclk'] = gmf
+            MTAB['gpu_sclk'] = gsf
+        end
 		coroutine.yield()
 	end
 end
