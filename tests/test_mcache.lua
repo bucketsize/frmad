@@ -15,7 +15,7 @@ function test_mcache()
     local otab = cachec:getAll()
     local mtab = {}
     for k, v in pairs(otab) do
-        mtab[k] = fmt:formatvalue(fmt,k ,v)
+        mtab[k] = fmt:formatvalue(k ,v)
     end
     util:printOTable(otab)
     print("----------------")

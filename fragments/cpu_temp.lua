@@ -19,10 +19,12 @@ hwmons["thermal_zone0"] = "/sys/class/thermal/thermal_zone0/temp"
 function cputemp()
 	local ts = {}
 	for i,v in pairs(hwmons) do
-		local handle = io.open(v, "r")
-		local result = handle:read("*l")
-		handle:close()
-		ts[i] = tonumber(result)
+		local h = io.open(v, "r")
+		if h then
+			local result = h:read("*l")
+			ts[i] = tonumber(result)
+			h:close()
+		end
 		--print('--> cpuT',i,result)
 	end
 	return ts

@@ -35,7 +35,6 @@ Fmt['p_pcpu']="%s"
 Fmt['p_pmem']="%s"
 Fmt['p_name']="%s"
 Fmt['cpu_volt']="%s"
-Fmt['cpu_freq']="%s"
 Fmt['cpu_fan']="%s"
 Fmt['discio']="%d"
 Fmt['discio_r']="%d"
@@ -47,17 +46,18 @@ Fmt['weather_temperature']="%.1f"
 Fmt['weather_humidity']="%.1f"
 Fmt['weather_summary']="%s"
 
-function Fmt:formatvalue(Fmt, k, v)
-    local f = Fmt[k]
+function Fmt.formatvalue(self, k, v)
+    local f = self[k]
     if not f then
         local fk = k:match("[%w_]+:([%w_]+)")
-        f = Fmt[fk]
+        f = self[fk]
     end
-    --print("-> ", k, v, type(v))
-    if not k then k = "__unknown" end    
-    if not v then v = "__unv_"..k end    
-    if not f then f = "__unf_"..k end    
-    return string.format(f, v)
-end
+    if not k then k = "__unknown" end
+    if not v then v = "__unv_"..k end
+    if not f then f = "__unf_"..k end
+		local vo = string.format(f, v)
+		-- print("formatvalue> ", k, vo)
+    return vo
+	end
 
 return Fmt

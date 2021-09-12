@@ -11,7 +11,7 @@ function status_line()
     local otab = cachec:getAll()
     local mtab = {}
     for k, v in pairs(otab) do
-        mtab[k] = fmt:formatvalue(fmt, k, v)
+        mtab[k] = fmt:formatvalue(k, v)
     end
     local power = util:if_else(mtab['battery_status'] == "AC"
     , {sym = sym["AC"], val = ""}
