@@ -2,7 +2,7 @@ require "luarocks.loader"
 
 local Fmt = require('frmad.config.formats')
 
--- Log to '/var/tmp/sys_mon.out' --
+-- Log to stdout --
 function logger()
 	while true do
 		local ll = ""

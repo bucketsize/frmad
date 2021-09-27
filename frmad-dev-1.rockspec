@@ -15,6 +15,8 @@ build = {
 	type = "none",
 	install = {
         lua = {
+			["frmad.config.config0"] = "config/config0.lua",
+			["frmad.config.config"] = "config/config.lua",
             ["frmad.config.formats"] = "config/formats.lua",
             ["frmad.config.alerts"] = "config/alerts.lua",
 

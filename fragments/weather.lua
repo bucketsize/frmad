@@ -2,10 +2,12 @@ require "luarocks.loader"
 
 local json = require("minilib.json")
 local http_request = require("http.request")
+local Cfg = require("frmad.config.config")
 
 local OpenWeatherApi="http://api.openweathermap.org/data/2.5/weather?q=bengaluru&appid=%s"
-local OpenWeatherApiKey=os.getenv("openweathermap_apikey")
+local OpenWeatherApiKey=Cfg.openweathermap_apikey
 if not OpenWeatherApiKey then
+    print("WARN :: OpenWeatherApiKey not defined!")
     OpenWeatherApiKey = "__UNKNOWN__"
 end
 
