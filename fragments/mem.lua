@@ -16,11 +16,11 @@ function mem_usage()
 		.build())
 	.add(Proc.cull())
 	.add(Proc.map(function(x)
-		if not (x[1]==nil) then rt=x[1][1]
-		elseif not (x[2]==nil) then rf=x[2][1]
-		elseif not (x[3]==nil) then st=x[3][1]
-		elseif not (x[4]==nil) then sf=x[4][1]
-		end
+		if x == nil then return x end
+		if not (x[1]==nil) then rt=x[1][1] end
+		if not (x[2]==nil) then rf=x[2][1] end
+		if not (x[3]==nil) then st=x[3][1] end
+		if not (x[4]==nil) then sf=x[4][1] end
 		return x
 	end))
 	-- .add(Shell.echo())

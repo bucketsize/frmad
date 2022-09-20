@@ -35,5 +35,5 @@ if not (arg[2] == "-") then
 end
 -----------------------------
 
-local CmdServer =  require('minilib.cmd_server')
+local CmdServer = require('minilib.cmd_server')
 CmdServer:start(host, port, Handler)

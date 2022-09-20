@@ -3,9 +3,8 @@
 require "luarocks.loader"
 
 local Util = require("minilib.util")
-local Ot = require("minilib.otable")
 
-local Fmt = Ot:newT()
+local Fmt = {}
 Fmt['time']="%s"
 Fmt['cpu']="%3.0f"
 Fmt['cpu_level']="%.0f"

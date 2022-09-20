@@ -15,6 +15,7 @@ function vol_usage()
 		.build())
 	.add(Proc.cull())
 	.add(Proc.map(function(x)
+		if x == nil then return x end
         if x[1] then table.insert(s,  x[1][1]) end
         if x[2] then table.insert(st, x[2][1]) end
         if x[3] then 

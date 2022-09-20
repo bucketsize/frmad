@@ -21,15 +21,16 @@ end, {"mcache",	"mlogger"})
 
 -----------------------------------------------------------------
 function start()
+	local t = Util:new_timer()
     for i, co in pairs(Co) do
         local inst = coroutine.create(co.co)
         print('co/', co.name, co.ri)
-        Util.Timer:tick(co.ri,
-        function()
+		t:tick(co.ri, function()
             Util:run_co(co.name, inst)
         end
         )
     end
-    Util.Timer:start()
+    t:start(10)
 end
-start()
+start() -- should block
+print("daemon exited ... ")
