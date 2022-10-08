@@ -37,9 +37,9 @@ function co_vol_usage()
 	while true do
 		local s, v, st = vol_usage()
         for i,sink in ipairs(s) do
-            MTAB[sink..'.vol'] = v[i]
-            MTAB[sink..'.vol_level'] = v[i]*0.05
-            MTAB[sink..'.snd_live'] = st[i]
+            MTAB[sink..':vol'] = v[i]
+            MTAB[sink..':vol_level'] = v[i]*0.05
+            MTAB[sink..':snd_live'] = st[i]
             if st[i] == "RUNNING" then
                 MTAB['vol'] = v[i]
                 MTAB['vol_level'] = v[i]*0.05

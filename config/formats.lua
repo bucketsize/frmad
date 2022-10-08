@@ -55,8 +55,10 @@ Fmt['Core 0']="%3.0f"
 Fmt['Core 1']="%3.0f"
 Fmt['Core 2']="%3.0f"
 Fmt['Core 3']="%3.0f"
-Fmt['thermal_zone0']="%3.0f"
 Fmt['Package id 0']="%3.0f"
+
+-- pi4
+Fmt['thermal_zone0']="%3.0f"
 
 function Fmt.formatvalue(self, k, v)
     local f = self[k]
