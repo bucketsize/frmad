@@ -17,20 +17,24 @@ Util:map(function(s)
 	local codef = require('frmad.writers.' .. s)
 	codef.name = s
 	table.insert(Co, codef)
-end, {"mcache",	"mlogger"})
+end, {"mlogger", "clogger"})
 
 -----------------------------------------------------------------
 function start()
-	local t = Util:new_timer()
+	local t = Util.new_timer()
     for i, co in pairs(Co) do
         local inst = coroutine.create(co.co)
-        print('co/', co.name, co.ri)
+        print('>> co', co.name, "?", inst)
 		t:tick(co.ri, function()
-            Util:run_co(co.name, inst)
-        end
+			-- print(">> co resume", co.name, co.ri,  inst)
+			local ok, res = coroutine.resume(inst)
+			if not ok then
+				print('>> co', co.name, res)
+			end
+		end
         )
     end
-    t:start(10)
+    t:start()
 end
 start() -- should block
 print("daemon exited ... ")

@@ -21,7 +21,6 @@ Fmt['gpu_mem_used_pc']="%3.0f"
 Fmt['gpu_temp']="%d"
 Fmt['gpu_sclk']="%4d"
 Fmt['gpu_mclk']="%4d"
-Fmt['Tdie']="%3.0f"
 Fmt['net_gateway']="%s"
 Fmt['net_device']="%s"
 Fmt['net_proto']="%s"
@@ -44,6 +43,20 @@ Fmt['battery']="%d"
 Fmt['weather_temperature']="%.1f"
 Fmt['weather_humidity']="%.1f"
 Fmt['weather_summary']="%s"
+
+-- pa
+Fmt['ps_sink']="%s"
+
+-- ryzen
+Fmt['Tdie']="%3.0f"
+
+-- intel
+Fmt['Core 0']="%3.0f"
+Fmt['Core 1']="%3.0f"
+Fmt['Core 2']="%3.0f"
+Fmt['Core 3']="%3.0f"
+Fmt['thermal_zone0']="%3.0f"
+Fmt['Package id 0']="%3.0f"
 
 function Fmt.formatvalue(self, k, v)
     local f = self[k]

@@ -13,7 +13,7 @@ discstat_files = {}
 Pr.pipe()
 .add(Sh.exec(string.format('find %s -type f,l', discstat_paths)))
 .add(function(f)
-    if Util:file_exists(f) then
+    if Sh.file_exists(f) then
         table.insert(discstat_files, f)
     end
 end)

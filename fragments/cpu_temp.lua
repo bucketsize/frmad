@@ -30,6 +30,23 @@ function cputemp()
 	return ts
 end
 
+function tempdef(cputs)
+	-- ryzen 2 2200g
+	if cputs["Tdie"] then
+		return cputs['Tdie'] / 1000
+	end
+
+	-- intel
+	if cputs["Core 0"] then
+		return cputs['Core 0'] / 1000
+	end
+
+	-- pi 4
+	if cputs["thermal_zone0"] then
+		return cputs['thermal_zone0'] / 1000
+	end
+end
+
 function co_cputemp()
 	while true do
 		local cputs = cputemp()
@@ -37,17 +54,7 @@ function co_cputemp()
 			MTAB[i] = v / 1000
 			alert:check('cpu_temp', MTAB[i])
 		end
-
-		-- ryzen 2 2200g
-		if cputs["Tdie"] then
-			MTAB['cpu_temp'] = cputs['Tdie'] / 1000
-		end
-
-		-- pi 4
-		if cputs["thermal_zone0"] then
-			MTAB['cpu_temp'] = cputs['thermal_zone0'] / 1000
-		end
-
+		MTAB['cpu_temp'] = tempdef(cputs)
 		coroutine.yield()
 	end
 end

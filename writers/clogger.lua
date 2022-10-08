@@ -5,13 +5,10 @@ local Fmt = require('frmad.config.formats')
 -- Log to stdout --
 function logger()
 	while true do
-		local ll = ""
-		for i,k in Fmt:ipairs() do
-			local fmt = Fmt[k]
-			local v = MTAB[k]
-			ll = ll .. string.format(fmt, v) ..  ","
+		for k, v in pairs(MTAB) do
+			io.write(Fmt:formatvalue(k, v), ",")
 		end
-		print(ll)
+		io.write("\n")
 		coroutine.yield()
 	end
 end
