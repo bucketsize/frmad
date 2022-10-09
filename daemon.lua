@@ -17,7 +17,7 @@ Util:map(function(s)
 	local codef = require('frmad.writers.' .. s)
 	codef.name = s
 	table.insert(Co, codef)
-end, {"mlogger", "clogger"})
+end, {"mlogger", "clogger", "lemonbar", "i3bar"})
 
 -----------------------------------------------------------------
 function start()

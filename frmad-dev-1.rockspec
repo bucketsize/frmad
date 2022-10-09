@@ -35,6 +35,8 @@ build = {
             ["frmad.writers.clogger"] = "writers/clogger.lua",
             ["frmad.writers.mcache"] = "writers/mcache.lua",
             ["frmad.writers.mlogger"] = "writers/mlogger.lua",
+            ["frmad.writers.lemonbar"] = "writers/lemonbar.lua",
+            ["frmad.writers.i3bar"] = "writers/i3bar.lua",
 
             ["frmad.lib.cachec"] = "lib/cachec.lua",
             ["frmad.lib.sym"] = "lib/sym.lua",
@@ -42,8 +44,6 @@ build = {
         bin = {
             ["frmad.cached"] = "cached.lua",
             ["frmad.daemon"] = "daemon.lua",
-            ["frmad.i3bar_out"] = "i3bar_out.lua",
-            ["frmad.lemonbar_out"] = "lemonbar_out.lua"
         }
     }
 }
