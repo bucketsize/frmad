@@ -37,7 +37,7 @@ function status_line()
 			return {sym = sym["net"], val = ""}
 		end
 	end)() 
-	string.format([[[
+	return string.format([[[
 			{"full_text": "%sC %sH %s"},
 			{"full_text": "| %s%s"},
 			{"full_text": "| %s %s"},
@@ -46,8 +46,7 @@ function status_line()
 			{"full_text": "| %s %s %s"},
 			{"full_text": "| %s %s"},
 			{"full_text": "| %s %s"},
-			{"full_text": "| %s %s"}
-],]]
+			{"full_text": "| %s %s"}],]]
 			, mtab['weather_temperature'], mtab['weather_humidity'], mtab['weather_summary']
 			, sym['eth'], util:if_else(mtab['net_gateway']=="?", sym['disabled'], "")
 			, sym['cpu'], mtab['cpu']
@@ -56,10 +55,9 @@ function status_line()
 			, sym['disc'], mtab['discio'], mtab['fs_free']
 			, audio.icon, audio.val
 			, bat.icon, bat.val
-		, sym['clock'], os.date("%a %b %d, %Y | %H:%M"))
+			, sym['clock'], os.date("%a %b %d, %Y | %H:%M"))
 end
 
--- Log to stdout --
 function logger()
 	local hout = io.open("/tmp/frmad.i3bar.out", "w")
 	hout:write('{"version":1}')

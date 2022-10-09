@@ -38,17 +38,16 @@ function status_line()
 		end
 	end)() 
     return string.format("%%{l} %s %s %s %%{c} %s%s %%{r}%s%s (%s) %s%s %s%s %s%s %s%s %s%s \n"
-    , mtab['weather_summary'], mtab['weather_temperature'], mtab['weather_humidity']
-    , sym["clock"], os.date("%a | %b %d, %Y | %H:%M:%S")
-    , sym["cpu"], mtab['cpu'], mtab['m:cpu_freq']
-    , sym["mem"], mtab['mem']
-    , sym["temperature"], mtab['cpu_temp']
-    , net.sym, net.val 
-    , audio.sym, audio.val
-    , bat.sym, bat.val)
+		, mtab['weather_summary'], mtab['weather_temperature'], mtab['weather_humidity']
+		, sym["clock"], os.date("%a | %b %d, %Y | %H:%M:%S")
+		, sym["cpu"], mtab['cpu'], mtab['m:cpu_freq']
+		, sym["mem"], mtab['mem']
+		, sym["temperature"], mtab['cpu_temp']
+		, net.sym, net.val 
+		, audio.sym, audio.val
+		, bat.sym, bat.val)
 end
 
--- Log to stdout --
 function logger()
 	while true do
 		local hout = io.open("/tmp/frmad.lemonbar.out", "w")
@@ -57,4 +56,5 @@ function logger()
 		coroutine.yield()
 	end
 end
+
 return {co=logger, ri=2}
