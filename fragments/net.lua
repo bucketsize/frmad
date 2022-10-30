@@ -6,8 +6,8 @@ local Util = require('minilib.util')
 
 function net_usage()
 	local r = Proc.pipe()
-	.add(Shell.exec('ip route'))
-	.add(Shell.grep('default via (%d+.%d+.%d+.%d+) dev (%w+) proto (%w+)'))
+	.add(Shell.exec("ip route"))
+	.add(Shell.grep("default via (%d+.%d+.%d+.%d+) dev (%w+)"))
 	.run()
 
 	if r == nil then
@@ -23,7 +23,7 @@ function net_usage()
 		table.insert(t, i)
 	end
 
-	return r[1],r[2],r[3],tonumber(t[1]),tonumber(t[9])
+	return r[1],r[2],"?",tonumber(t[1]),tonumber(t[9])
 end
 function co_net_usage()
 	local tx0,rx0=0,0
