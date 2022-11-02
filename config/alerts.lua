@@ -5,47 +5,77 @@ local Util = require("minilib.util")
 
 local Al = {
 	cpu = {
-		trigger = 59,		count = 0,		highmark = 10
+		compare = ">",
+		trigger = 59,
+		count = 0,
+		highmark = 10
 	},
 	mem = {
-		trigger = 79,		count = 0,		highmark = 10
+		compare = ">",
+		trigger = 79,
+		count = 0,
+		highmark = 10
 	},
 	cpu_temp = {
-		trigger = 79,		count = 0,		highmark = 5
+		compare = ">",
+		trigger = 79,
+		count = 0,
+		highmark = 5
+	},
+	battery = {
+		compare = "<",
+		trigger = 10,
+		count = 0,
+		highmark = 5
 	}
 }
 
-function Al:alert(p)
-	Util:exec(string.format('notify-send -u critical -c system "%s is overboard"', p))
-	print(string.format('a: %s, c: %d, t: %s , h: %d', p, Al[p].count, Al[p].trigger, Al[p].highmark))
-end
-
-function Al:check(p, pc)
-	local b = Al[p].trigger
-	local a = Al[p].count
-	local h = Al[p].highmark
-	--print('1->',p, pc,":",type(pc), b,a,h)
-	if pc > b then
-		if a > h then
-				Al:alert(p)
-				h = h * 2 -- exponential backoff
-		end
-		a = a + 1
+function Al.compare(p, a)
+	local c, b = Al[p].compare, Al[p].trigger
+	if 	(c == ">"  and a >  b) or 
+		(c == ">=" and a >= b) or
+		(c == "<"  and a <  b) or
+		(c == "<=" and a <= b) or
+		(c == "==" and a == b) or
+		(c == "!=" and a ~= b) then
+		return true
 	else
-		a = 0
+		return false
 	end
-	Al[p].count = a
-	Al[p].highmark = h
 end
 
-function test()
-	for i=1,45 do
-		Al:check('cpu', 80)
-		Al:check('cpu_temp', 80)
-	end
-	print('done')
+Al.compare_str = {
+	[">" ] = "is running high!",
+	[">="] = "is running somewhat high!",
+	["<" ] = "is running low!",
+	["<="] = "is running somewhat low",
+	["=="] = "is",
+	["!="] = "is not as expected!",
+}
+
+function Al.alert(p, pc)
+	local al = Al[p]
+	print("Al.alert: ", p, pc, Al.compare_str[al.compare])
+	Util:exec(string.format('notify-send -u critical -c system "%s %s (%s)"'
+		, p
+		, Al.compare_str[al.compare]
+		, pc))
 end
 
--- test()
+function Al.check(p, pc)
+	print("Al.check:", p, pc)
+	if Al.compare(p, pc) then
+		print("Al.check, trigger:", p, pc)
+		if Al[p].count > Al[p].highmark then
+			Al.alert(p, pc)
+			Al[p].highmark = Al[p].highmark * 2 -- exponential backoff
+		end
+		Al[p].count = Al[p].count + 1
+		return true
+	else
+		Al[p].count = 0
+		return false
+	end
+end
 
 return Al
