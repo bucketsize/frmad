@@ -30,6 +30,6 @@ local CmdServer = require('minilib.cmd_server')
 return {
 	co = function() 
 		CmdServer:start("*", 51517, Handler)
-		CmdServer:run_nonblocking()
-	end, ri = 1
+		CmdServer:run_nonblocking({timeout=0.1})
+	end, ri = 0.1
 }
