@@ -25,15 +25,11 @@ local Handler = {
    end,
 }
 
------------------------------
-local host, port = "*", 51515
-if not (arg[1] == "-") then
-   host = arg[1]
-end
-if not (arg[2] == "-") then
-   port = tonumber(arg[2])
-end
------------------------------
-
 local CmdServer = require('minilib.cmd_server')
-CmdServer:start(host, port, Handler)
+
+return {
+	co = function() 
+		CmdServer:start("*", 51517, Handler)
+		CmdServer:run_nonblocking()
+	end, ri = 1
+}

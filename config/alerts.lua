@@ -31,7 +31,8 @@ local Al = {
 }
 
 function Al.compare(p, a)
-	local c, b = Al[p].compare, Al[p].trigger
+	local ad = Al[p]
+	local c, b = ad.compare, ad.trigger
 	if 	(c == ">"  and a >  b) or 
 		(c == ">=" and a >= b) or
 		(c == "<"  and a <  b) or

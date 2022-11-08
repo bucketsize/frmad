@@ -25,7 +25,7 @@ function co_cpu_usage()
 		MTAB['cpu'] = c*100
 		MTAB['cpu_level'] = c*5
 		MTAB['time'] = os.date("%Y-%m-%dT%H:%M:%S+05:30")
-		alert:check('cpu', c*100)
+		alert.check('cpu', c*100)
 		coroutine.yield()
 	end
 end

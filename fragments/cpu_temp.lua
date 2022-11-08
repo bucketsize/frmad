@@ -52,7 +52,7 @@ function co_cputemp()
 		local cputs = cputemp()
 		for i,v in pairs(cputs) do
 			MTAB[i] = v / 1000
-			alert:check('cpu_temp', MTAB[i])
+			alert.check('cpu_temp', MTAB[i])
 		end
 		MTAB['cpu_temp'] = tempdef(cputs)
 		coroutine.yield()

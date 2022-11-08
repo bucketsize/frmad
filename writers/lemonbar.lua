@@ -57,4 +57,4 @@ function logger()
 	end
 end
 
-return {co=logger, ri=2}
+return {co=logger, formatter=status_line, ri=2}
