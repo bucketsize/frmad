@@ -44,7 +44,7 @@ build = {
 			["frmad.interfaces.tcp"] = "interfaces/tcp.lua",
         },
         bin = {
-            -- ["frmad.cached"] = "cached.lua",
+            ["frmad.cached"] = "cached.lua",
             ["frmad.daemon"] = "daemon.lua",
         }
     }
