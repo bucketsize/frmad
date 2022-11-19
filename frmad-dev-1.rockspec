@@ -21,6 +21,7 @@ build = {
             ["frmad.config.alerts"] = "config/alerts.lua",
 
             ["frmad.fragments.amdgpu"] = "fragments/amdgpu.lua",
+            ["frmad.fragments.nvgpu"] = "fragments/nvgpu.lua",
             ["frmad.fragments.battery"] = "fragments/battery.lua",
             ["frmad.fragments.cpu"] = "fragments/cpu.lua",
             ["frmad.fragments.cpu_freq"] = "fragments/cpu_freq.lua",

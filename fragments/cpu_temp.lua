@@ -1,17 +1,27 @@
 require "luarocks.loader"
 
 local Util = require('minilib.util')
+local Sh = require('minilib.shell')
 local alert = require('frmad.config.alerts')
 
 local hwmons={}
 
--- ryzen 2 2200g
-Util:stream_exec("ls /sys/class/hwmon/hwmon*/temp*_label", function(f)
-	local d = string.gsub(Util:read(f, 'r'), '%c', '', 1)
-	local h = string.gsub(f, 'label', 'input', 1)
-	--print('--> cpuT',h)
-	hwmons[d] = h
-end)
+-- intel i5 / amd ryzen 2200 g
+for i = 0,8 do
+	local hwmfd = string.format("/sys/class/hwmon/hwmon%d/name", i)
+	if Sh.path_exists(hwmfd) then
+		if Util:head_file(hwmfd) == "coretemp" then
+			for j = 0,8 do
+				local tempfd = string.format("/sys/class/hwmon/hwmon%d/temp%d_label", i, j)
+				if Sh.path_exists(tempfd) then
+					local templb = Util:head_file(tempfd)
+					hwmons[templb] = string.format("/sys/class/hwmon/hwmon%d/temp%d_input", i, j)
+				end
+			end
+			break
+		end
+	end
+end
 
 -- pi 4
 hwmons["thermal_zone0"] = "/sys/class/thermal/thermal_zone0/temp"
@@ -25,7 +35,6 @@ function cputemp()
 			ts[i] = tonumber(result)
 			h:close()
 		end
-		--print('--> cpuT',i,result)
 	end
 	return ts
 end

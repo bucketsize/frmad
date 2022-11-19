@@ -37,21 +37,40 @@ function status_line()
 			return {sym = sym["net"], val = ""}
 		end
 	end)() 
-    return string.format("%%{l} %s %s %s %%{c} %s%s %%{r}%s%s (%s) %s%s %s%s %s%s %s%s %s%s \n"
-		, mtab['weather_summary'], mtab['weather_temperature'], mtab['weather_humidity']
+    local gpu = (function() 
+		if mtab['gpu_id']=="nv" then
+    		return {name="nv",temp=mtab["nv:gpu_temp"],speed=mtab["nv:gpu_sclk"]}
+		end
+		if mtab['gpu_id']=="amd" then
+    		return {name="amd",temp=mtab["amd:gpu_temp"],speed=mtab["amd:gpu_sclk"]}
+		end
+		return {}
+	end)() 
+    return {
+		"%{l}"
 		, sym["clock"], os.date("%a | %b %d, %Y | %H:%M:%S")
+		, "%{c}"
+		, "..."
+		, "%{r}"
 		, sym["cpu"], mtab['cpu'], mtab['m:cpu_freq']
+		, mtab['cpu_temp'], sym["temperature"]
+		, sym["gpu"], gpu.name, gpu.speed
+		, gpu.temp, sym["temperature"]
 		, sym["mem"], mtab['mem']
-		, sym["temperature"], mtab['cpu_temp']
 		, net.sym, net.val 
 		, audio.sym, audio.val
-		, bat.sym, bat.val)
+		, bat.sym, bat.val
+		}
 end
 
 function logger()
 	while true do
 		local hout = io.open("/tmp/frmad.lemonbar.out", "w")
-		hout:write(status_line())
+		for _, e in ipairs(status_line()) do
+			hout:write(e)
+			hout:write(" ")
+		end
+		hout:write("\n")
 		hout:close()
 		coroutine.yield()
 	end

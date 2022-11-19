@@ -15,7 +15,8 @@ return {
         AC = "Psu",
         snd = "Snd",
         snd_mute = "Snd-x-",
-        temperature = "T*C",
+        -- temperature = "\\u00B0 C",
+        temperature = "C",
     },
     awesome = {
         cpu = "Cpu",

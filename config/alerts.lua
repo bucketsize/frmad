@@ -64,9 +64,9 @@ function Al.alert(p, pc)
 end
 
 function Al.check(p, pc)
-	print("Al.check:", p, pc)
+	-- print("Al.check:", p, pc)
 	if Al.compare(p, pc) then
-		print("Al.check, trigger:", p, pc)
+		-- print("Al.check, trigger:", p, pc)
 		if Al[p].count > Al[p].highmark then
 			Al.alert(p, pc)
 			Al[p].highmark = Al[p].highmark * 2 -- exponential backoff
