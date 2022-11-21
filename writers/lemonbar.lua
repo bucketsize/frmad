@@ -9,6 +9,7 @@ function status_line()
     local otab = MTAB 
     local mtab = {}
     for k, v in pairs(otab) do
+		if not v then v = "" end
         mtab[k] = fmt:formatvalue(k, v)
     end
 	local bat = (function()
@@ -34,31 +35,36 @@ function status_line()
 		if mtab['net_gateway']=="?" then
     		return {sym = sym["net_disabled"], val = ""}
     	else 
-			return {sym = sym["net"], val = ""}
+			return {sym = sym["net"], val = mtab["net_device"]}
 		end
 	end)() 
     local gpu = (function() 
 		if mtab['gpu_id']=="nv" then
-    		return {name="nv",temp=mtab["nv:gpu_temp"],speed=mtab["nv:gpu_sclk"]}
+    		return {name="Nv",temp=mtab["nv:gpu_temp"],speed=mtab["nv:gpu_sclk"]}
 		end
-		if mtab['gpu_id']=="amd" then
+		if mtab['gpu_id']=="Amd" then
     		return {name="amd",temp=mtab["amd:gpu_temp"],speed=mtab["amd:gpu_sclk"]}
 		end
 		return {}
 	end)() 
     return {
 		"%{l}"
-		, sym["clock"], os.date("%a | %b %d, %Y | %H:%M:%S")
+		, sym["clock"], os.date("%a %b %d, %Y | %H:%M:%S")
 		, "%{c}"
 		, "..."
 		, "%{r}"
-		, sym["cpu"], mtab['cpu'], mtab['m:cpu_freq']
-		, mtab['cpu_temp'], sym["temperature"]
-		, sym["gpu"], gpu.name, gpu.speed
-		, gpu.temp, sym["temperature"]
-		, sym["mem"], mtab['mem']
-		, net.sym, net.val 
+		, sym["cpu"] .. mtab['cpu']
+		, sym["temperature"] .. mtab['cpu_temp']
+		, "|"
+		, sym["gpu"], gpu.name
+		, sym["temperature"], gpu.temp
+		, "|"
+		, sym["mem"] .. mtab['mem']
+		, "|"
 		, audio.sym, audio.val
+		, "|"
+		, net.sym, net.val 
+		, "|"
 		, bat.sym, bat.val
 		}
 end
@@ -71,6 +77,7 @@ function logger()
 			hout:write(" ")
 		end
 		hout:write("\n")
+		hout:flush()
 		hout:close()
 		coroutine.yield()
 	end
