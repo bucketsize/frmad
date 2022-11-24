@@ -1,3 +1,6 @@
+-- https://unicode.org/emoji/charts/full-emoji-list.html
+-- https://www.fontspace.com/unicode/analyzer
+
 local up = utf8.char(8593)
 local dw = utf8.char(8595)
 local no = utf8.char(1509)
@@ -25,19 +28,21 @@ return {
     ascii = {
         cpu = "Cpu",
         gpu = "Gpu",
+		gpu_nv = "Nv",
+		gpu_amd = "Amd",
         mem = "Mem",
-        eth = "Eth",
-        wifi = "Wlan",
-        net = "Net",
+        eth = "Enp ",
+        wln = "Wlp ",
+        net = "Net ",
         net_disabled = "Net?",
         disc = "Df",
-        clock = "T-",
-        battery = "Bat",
-        battery_charging = "Bat+", 
-        battery_discharging = "Bat-",
+        clock = "T- ",
+        battery = "Bat  ",
+        battery_charging = "Bat+ ", 
+        battery_discharging = "Bat- ",
         AC = "Pow",
         snd = "Snd",
         snd_mute = "Snd?",
-        temperature = "Th",
+        temperature = "Th ",
     }
 }
