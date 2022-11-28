@@ -3,6 +3,7 @@ require "luarocks.loader"
 local Util = require('minilib.util')
 local Sh = require('minilib.shell')
 local alert = require('frmad.config.alerts')
+local L = require("minilib.logger").create()
 
 local hwmons={}
 
@@ -10,29 +11,31 @@ local hwmons={}
 for i = 0,8 do
 	local hwmfd = string.format("/sys/class/hwmon/hwmon%d/name", i)
 	if Sh.path_exists(hwmfd) then
-		if Util:head_file(hwmfd) == "coretemp" then
-			for j = 0,8 do
-				local tempfd = string.format("/sys/class/hwmon/hwmon%d/temp%d_label", i, j)
-				if Sh.path_exists(tempfd) then
-					local templb = Util:head_file(tempfd)
-					hwmons[templb] = string.format("/sys/class/hwmon/hwmon%d/temp%d_input", i, j)
-				end
+		L:info("cpu_temp, checking %s", hwmfd, Util:head_file(hwmfd))
+		for j = 0,8 do
+			local tempfd = string.format("/sys/class/hwmon/hwmon%d/temp%d_label", i, j)
+			if Sh.path_exists(tempfd) then
+				local templb = Util:head_file(tempfd)
+				hwmons[templb] = string.format("/sys/class/hwmon/hwmon%d/temp%d_input", i, j)
 			end
-			break
 		end
 	end
 end
 
 -- pi 4
-hwmons["thermal_zone0"] = "/sys/class/thermal/thermal_zone0/temp"
+if Sh.path_exists("/sys/class/thermal/thermal_zone0/temp") then
+	hwmons["thermal_zone0"] = "/sys/class/thermal/thermal_zone0/temp"
+end
 
 function cputemp()
 	local ts = {}
 	for i,v in pairs(hwmons) do
+		-- L:info("cputemp, %s, %s", i,v)
 		local h = io.open(v, "r")
 		if h then
 			local result = h:read("*l")
 			ts[i] = tonumber(result)
+			-- L:info("cputemp, %s, %s -> %s", i,v,result)
 			h:close()
 		end
 	end
@@ -58,13 +61,9 @@ end
 
 function co_cputemp()
 	while true do
-		local cputs = cputemp()
-		for i,v in pairs(cputs) do
-			MTAB[i] = v / 1000
-			alert.check('cpu_temp', MTAB[i])
-		end
-		MTAB['cpu_temp'] = tempdef(cputs)
+		MTAB['cpu_temp'] = tempdef(cputemp())
 		coroutine.yield()
 	end
 end
+
 return {fn=cputemp, co=co_cputemp, ri=2}

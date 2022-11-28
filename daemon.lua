@@ -5,6 +5,7 @@ local Util = require('minilib.util')
 local Fmt = require('frmad.config.formats')
 local M = require("minilib.monad")
 local T = require("minilib.timer")
+local L = require("minilib.logger").create()
 
 EPOC=2
 MTAB={}
@@ -42,9 +43,13 @@ function start_timer()
 		local inst = coroutine.create(co.co)
 		print("start_timer", co.name, "?", inst)
 		t:tick(co.ri, function()
-			local ok, res = coroutine.resume(inst)
+			local status = coroutine.status(inst)
+			if status == "dead" then
+				return
+			end
+			local ok,res = coroutine.resume(inst)
 			if not ok then
-				print('>> co', co.name, res)
+				L:info('resume %s, %s', co.name, res)
 			end
 		end)
 	end
