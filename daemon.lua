@@ -25,9 +25,9 @@ local Cof = M.List.of({
 		return codef
 	end)
 local Cow = M.List.of({
-		"mlogger",
+		-- "mlogger",
 		"clogger",
-		"lemonbar",
+		-- "lemonbar",
 		-- "mcache"
 	})
 	:fmap(function(s)
@@ -56,9 +56,9 @@ function start_timer()
 	Cof:fmap(sched_co_exec)
 	Cow:fmap(sched_co_exec)
 
-	-- local tcpif = require("frmad.interfaces.tcp")
-	-- tcpif.name = "tcpif"
-	-- sched_co_exec(tcpif)
+	local tcpif = require("frmad.interfaces.tcp")
+	tcpif.name = "tcpif"
+	sched_co_exec(tcpif)
     
 	t:start()
 end

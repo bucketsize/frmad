@@ -2,7 +2,7 @@
 
 require "luarocks.loader"
 
-local Cache = {}
+local Cache = MTAB
 
 local Handler = {
    put = function(client, so)
