@@ -1,10 +1,7 @@
 require "luarocks.loader"
 
-local Fmt = require('frmad.config.formats')
-
--- Log to stdout --
-function logger()
-	local h = io.open("/var/tmp/frmad.log.json", "a")
+return {co=function ()
+	local h = assert(io.open("/var/tmp/frmad.log.json", "a"))
 	while true do
 		h:write("{")
 		for k, v in pairs(MTAB) do
@@ -17,6 +14,5 @@ function logger()
 		h:write("\"__e\":1}\n")
 		coroutine.yield()
 	end
-	h:close()
 end
-return {co=logger, ri=2}
+, ri=2}

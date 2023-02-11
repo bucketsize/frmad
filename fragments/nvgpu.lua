@@ -1,18 +1,18 @@
 require "luarocks.loader"
 
-local Ut = require('minilib.util')
-local Sh = require('minilib.shell')
-
-function nv_gpu_usage(l)
+local function nv_gpu_usage(l)
 	local _,pwr,tgpu,clkm,clks = l:match("(%d+)%s+(%d+)%s+(%d+)%s+-%s+(%d+)%s+(%d+)")
 	local vram_used = 0
-	local vram = 0 
-	return vram, vram_used, tonumber(tgpu),tonumber(clkm),tonumber(clks)
+	local vram = 0
+	return vram, vram_used, tonumber(tgpu),tonumber(clkm),tonumber(clks),pwr
 end
-function co_gpu_usage()
+local function co_gpu_usage()
 	local h = assert(io.popen("nvidia-smi dmon -d 2 -s pc"))
 	while true do
 		local l = h:read("*l")
+		if not l then
+			return
+		end
 		local vram,vram_used,tgpu,gmf,gsf=nv_gpu_usage(l)
 		-- print('co_gpu_usage', vram,vram_used,tgpu,gmf,gsf)
         if vram then

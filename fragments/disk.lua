@@ -2,14 +2,14 @@ local Sh = require('minilib.shell')
 local Pr = require('minilib.process')
 local Util = require('minilib.util')
 
-discstat_paths = Util:join(" ", {
+local discstat_paths = Util:join(" ", {
     "/sys/block/mmc*/stat",
     "/sys/block/sd*/stat",
     "/sys/block/hd*/stat"
 })
-print("dps:", discstat_paths) 
+print("dps:", discstat_paths)
 
-discstat_files = {}
+local discstat_files = {}
 Pr.pipe()
 .add(Sh.exec(string.format('find %s -type f,l', discstat_paths)))
 .add(function(f)
@@ -19,12 +19,12 @@ Pr.pipe()
 end)
 .run()
 
-print("dfs:", #discstat_files, discstat_files) 
+print("dfs:", #discstat_files, discstat_files)
 Util:printITable(discstat_files)
 
-function disc_usage()
+local function disc_usage()
     local du = {}
-    for i,f in ipairs(discstat_files) do 
+    for _,f in ipairs(discstat_files) do
         local handle = io.open(f, "r")
         if handle then
             local result = handle:read("*l")
@@ -40,10 +40,10 @@ function disc_usage()
     return du
 end
 
-function co_disc_usage()
+local function co_disc_usage()
     while true do
         local du = disc_usage()
-        for i,dui in ipairs(du) do
+        for _,dui in ipairs(du) do
             local l,r,w = dui
             MTAB[l..':discio_r'] = math.floor(r / 1000)
             MTAB[l..':discio_w'] = math.floor(w / 1000)

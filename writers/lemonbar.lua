@@ -1,11 +1,10 @@
 #!/usr/bin/env lua
 require "luarocks.loader"
 
-local util = require("minilib.util")
 local fmt = require("frmad.config.formats")
 local sym = require("frmad.lib.sym").ascii
 
-function status_line()
+local function status_line()
     local mtab = function(k)
 		if not MTAB[k] then return " ?" end
         return fmt:formatvalue(k, MTAB[k])
@@ -22,30 +21,30 @@ function status_line()
 		end
 		return {sym = sym["AC"], val = ""}
 	end)()
-    local audio = (function() 
+    local audio = (function()
 		if MTAB['vol'] == nil or mtab('vol') < 1 then
 			return {sym = sym["snd_mute"], val = ""}
 		else
 			return {sym = sym["snd"], val = mtab("vol")}
 		end
 	end)()
-    local net = (function() 
+    local net = (function()
 		if MTAB['net_gateway']=="?" then
     		return {sym = sym["net_disabled"], val = ""}
     	else
-			if MTAB["net_device"]:match("^wl") then 
+			if MTAB["net_device"]:match("^wl") then
 				return {sym = sym["wln"], val = mtab("net_gateway")}
 			end
-			if MTAB["net_device"]:match("^en") then 
+			if MTAB["net_device"]:match("^en") then
 				return {sym = sym["eth"], val = mtab("net_gateway")}
 			end
 			return {sym = sym["net"], val = mtab("net_gateway")}
 		end
-	end)() 
-	local gpu = (function() 
-		local gpu_id = MTAB['gpu_id'] 		
+	end)()
+	local gpu = (function()
+		local gpu_id = MTAB['gpu_id']
     	return {sym=sym["gpu_"..gpu_id],temp=mtab(gpu_id..":gpu_temp"),speed=mtab(gpu_id..":gpu_sclk")}
-	end)() 
+	end)()
     return string.format(
 		"%%{l} %s%s %%{c}...%%{r} %s%s %s%s | %s %s%s | %s%s | %s%s | %s%s | %s%s\n"
 		, sym["clock"], os.date("%a %b %d, %Y | %H:%M:%S")
@@ -54,18 +53,17 @@ function status_line()
 		, gpu.sym, sym["temperature"], gpu.temp
 		, sym["mem"], mtab('mem')
 		, audio.sym, audio.val
-		, net.sym, net.val 
+		, net.sym, net.val
 		, bat.sym, bat.val
 		)
 end
 
-function logger()
+return {co=function ()
 	while true do
-		local hout = io.open("/tmp/frmad.lemonbar.out", "w")
+		local hout = assert(io.open("/tmp/frmad.lemonbar.out", "w"))
 		hout:write(status_line())
 		hout:close()
 		coroutine.yield()
 	end
 end
-
-return {co=logger, formatter=status_line, ri=2}
+, formatter=status_line, ri=2}

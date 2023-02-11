@@ -27,7 +27,7 @@ local Cof = M.List.of({
 local Cow = M.List.of({
 		-- "mlogger",
 		"clogger",
-		-- "lemonbar",
+		"lemonbar",
 		-- "mcache"
 	})
 	:fmap(function(s)
@@ -37,7 +37,7 @@ local Cow = M.List.of({
 	end)
 
 -----------------------------------------------------------------
-function start_timer()
+local function start_timer()
 	local t = T.new_timer()
 	local sched_co_exec = function (co)
 		local inst = coroutine.create(co.co)
@@ -45,11 +45,12 @@ function start_timer()
 		t:tick(co.ri, function()
 			local status = coroutine.status(inst)
 			if status == "dead" then
+				L:info('tick, dead co %s', co.name)
 				return
 			end
 			local ok,res = coroutine.resume(inst)
 			if not ok then
-				L:info('resume %s, %s', co.name, res)
+				L:info('tick, failed to resume %s, %s', co.name, res)
 			end
 		end)
 	end

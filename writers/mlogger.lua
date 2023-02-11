@@ -2,14 +2,13 @@ require "luarocks.loader"
 
 local Fmt = require('frmad.config.formats')
 
-function logger()
+return {co=function ()
 	while true do
-		local hout = io.open("/tmp/frmad.out", "w")
+		local hout = assert(io.open("/tmp/frmad.out", "w"))
 		for k, v in pairs(MTAB) do
 			hout:write(k,': ', Fmt:formatvalue(k, v), "\n")
 		end
 		hout:close()
 		coroutine.yield()
 	end
-end
-return {co=logger, ri=2}
+end, ri=2}

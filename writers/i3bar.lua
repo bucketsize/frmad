@@ -5,7 +5,7 @@ local util = require("minilib.util")
 local fmt = require("frmad.config.formats")
 local sym = require("frmad.lib.sym").ascii
 
-function status_line()
+local function status_line()
     local otab = MTAB 
     local mtab = {}
     for k, v in pairs(otab) do
@@ -58,18 +58,17 @@ function status_line()
 			, sym['clock'], os.date("%a %b %d, %Y | %H:%M"))
 end
 
-function logger()
-	local hout = io.open("/tmp/frmad.i3bar.out", "w")
+return {co=function ()
+	local hout = assert(io.open("/tmp/frmad.i3bar.out", "w"))
 	hout:write('{"version":1}')
 	hout:write('[')
 	hout:write('[],')
 	hout:close()
 	while true do
-		local hout = io.open("/tmp/frmad.i3bar.out", "w")
+		hout = assert(io.open("/tmp/frmad.i3bar.out", "w"))
 		hout:write(status_line())
 		hout:close()
 		coroutine.yield()
 	end
 end
-
-return {co=logger, ri=2}
+, ri=2}
