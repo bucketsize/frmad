@@ -1,37 +1,40 @@
 #!/usr/bin/env lua
-require "luarocks.loader"
+require("luarocks.loader")
 
-local Util = require('minilib.util')
-local Fmt = require('frmad.config.formats')
 local M = require("minilib.monad")
 local T = require("minilib.timer")
 local L = require("minilib.logger").create()
 
-EPOC=2
-MTAB={}
+EPOC = 2
+MTAB = {}
 
-local Cof = M.List.of({
-		"cpu","cpu_freq", "cpu_temp",
+local Cof = M.List
+	.of({
+		"cpu",
+		"cpu_freq",
+		"cpu_temp",
 		"mem",
-		"amdgpu", "nvgpu",
+		"amdgpu",
+		"nvgpu",
 		"battery",
 		"net",
 		"pulseaudio",
-		"weather"
+		"weather",
 	})
 	:fmap(function(s)
-		local codef = require('frmad.fragments.' .. s)
+		local codef = require("frmad.fragments." .. s)
 		codef.name = s
 		return codef
 	end)
-local Cow = M.List.of({
+local Cow = M.List
+	.of({
 		-- "mlogger",
 		"clogger",
 		"lemonbar",
 		-- "mcache"
 	})
 	:fmap(function(s)
-		local codef = require('frmad.writers.' .. s)
+		local codef = require("frmad.writers." .. s)
 		codef.name = s
 		return codef
 	end)
@@ -39,18 +42,18 @@ local Cow = M.List.of({
 -----------------------------------------------------------------
 local function start_timer()
 	local t = T.new_timer()
-	local sched_co_exec = function (co)
+	local sched_co_exec = function(co)
 		local inst = coroutine.create(co.co)
 		print("start_timer", co.name, "?", inst)
 		t:tick(co.ri, function()
 			local status = coroutine.status(inst)
 			if status == "dead" then
-				L:info('tick, dead co %s', co.name)
+				L:info("tick, dead co %s", co.name)
 				return
 			end
-			local ok,res = coroutine.resume(inst)
+			local ok, res = coroutine.resume(inst)
 			if not ok then
-				L:info('tick, failed to resume %s, %s', co.name, res)
+				L:info("tick, failed to resume %s, %s", co.name, res)
 			end
 		end)
 	end
@@ -60,7 +63,7 @@ local function start_timer()
 	local tcpif = require("frmad.interfaces.tcp")
 	tcpif.name = "tcpif"
 	sched_co_exec(tcpif)
-    
+
 	t:start()
 end
 start_timer() -- should block
