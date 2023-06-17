@@ -44,11 +44,16 @@ local function start_timer()
 	local t = T.new_timer()
 	local sched_co_exec = function(co)
 		local inst = coroutine.create(co.co)
+		local dead_co = {}
 		print("start_timer", co.name, "?", inst)
 		t:tick(co.ri, function()
+			if dead_co[co.name] == 1 then
+				return
+			end
 			local status = coroutine.status(inst)
 			if status == "dead" then
 				L:info("tick, dead co %s", co.name)
+				dead_co[co.name] = 1
 				return
 			end
 			local ok, res = coroutine.resume(inst)
